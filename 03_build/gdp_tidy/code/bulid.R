@@ -1,5 +1,4 @@
 library(magrittr)
-box::
 
 main <- function(){
   my_folder <- "gdp"
@@ -18,7 +17,9 @@ main <- function(){
     to_numeric()
   
   GDP_data <- J_tidy_data %>% dplyr::inner_join(U_tidy_data,by="year") 
-  basics$save_interim(GDP_data, my_folder, extension = "tidy")
+  
+  gen_file_path_interim(my_folder,extension = "tidy")
+  save_interim(GDP_data,my_folder,extension = "tidy")
 }
 
 read_J_raw_data <- function(folder_name,file_name){
@@ -56,6 +57,22 @@ to_numeric <- function(data_input){
   data_input$year <- format(as.Date(data_input$year, format="%Y-%m-%d"),"%Y")
   data_output <- data_input %>% dplyr::mutate(year=as.numeric(year))
   return(data_output)
+}
+
+gen_file_path_interim <- function(folder_name, extension){
+  if(missing(extension)){
+    file_path0 <- folder_name
+  }else{
+    file_path0 <- paste0(folder_name, "_", extension)
+  }
+  file_name <- paste0(file_path0, ".rds")
+  file_path <- here::here("03_build",file_path0,"output",file_name)
+  return(file_path)
+}
+
+save_interim <- function(data, folder_name, extension){
+  file_path <- gen_file_path_interim(folder_name, extension)
+  saveRDS(data, file_path)
 }
 
 main()
