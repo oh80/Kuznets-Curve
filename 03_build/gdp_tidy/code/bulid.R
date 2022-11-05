@@ -1,3 +1,6 @@
+library(magrittr)
+box::
+
 main <- function(){
   my_folder <- "gdp"
   J_data <- read_J_raw_data(my_folder,
@@ -15,7 +18,7 @@ main <- function(){
     to_numeric()
   
   GDP_data <- J_tidy_data %>% dplyr::inner_join(U_tidy_data,by="year") 
-  return(GDP_data)
+  basics$save_interim(GDP_data, my_folder, extension = "tidy")
 }
 
 read_J_raw_data <- function(folder_name,file_name){
