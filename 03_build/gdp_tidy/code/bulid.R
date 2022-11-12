@@ -6,6 +6,8 @@ main <- function(){
                             fime_name <- "raw_data_japan.csv")
   U_data <- read_US_raw_data(my_folder,
                             fime_name <- "raw_data_US.csv")
+
+  
   J_tidy_data <- J_data %>% 
     select_column() %>% 
     rename_column_J() %>% 
@@ -18,8 +20,7 @@ main <- function(){
   
   GDP_data <- J_tidy_data %>% dplyr::inner_join(U_tidy_data,by="year") 
   
-  gen_file_path_interim(my_folder,extension = "tidy")
-  save_interim(GDP_data,my_folder,extension = "tidy")
+  basics$save_interim(GDP_data, my_folder, extension = "tidy")
 }
 
 read_J_raw_data <- function(folder_name,file_name){
@@ -42,14 +43,14 @@ select_column　<- function(gdp_data){
 }
 
 rename_column_J <- function(data_input){
-  data_output <- data_input %>% dplyr::rename("year"="date",
-                                              "GDP_J"="GDP ( Billions of US $)") 
+  data_output <- data_input %>% dplyr::rename(year="date",
+                                              GDP_J="GDP ( Billions of US $)") 
   return(data_output)
 }
 
 rename_column_U <- function(data_input){
-  data_output <- data_input %>% dplyr::rename("year"="date",
-                                              "GDP_U"="GDP ( Billions of US $)") 
+  data_output <- data_input %>% dplyr::rename(year="date",
+                                              GDP_U="GDP ( Billions of US $)") 
   return(data_output)
 }
 
@@ -59,20 +60,6 @@ to_numeric <- function(data_input){
   return(data_output)
 }
 
-gen_file_path_interim <- function(folder_name, extension){
-  if(missing(extension)){
-    file_path0 <- folder_name
-  }else{
-    file_path0 <- paste0(folder_name, "_", extension)
-  }
-  file_name <- paste0(file_path0, ".rds")
-  file_path <- here::here("03_build",file_path0,"output",file_name)
-  return(file_path)
-}
 
-save_interim <- function(data, folder_name, extension){
-  file_path <- gen_file_path_interim(folder_name, extension)
-  saveRDS(data, file_path)
-}
-
+box::use(`functions`/basics)
 main()
