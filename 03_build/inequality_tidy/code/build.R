@@ -17,12 +17,11 @@ main <- function(){
     extract_data_U() %>% 
     to_long_U() %>% 
     rename_column_U() 
-  
   U_tidy <-to_numeric_U(U_tidy)
   
-  basics$save_interim(J_tidy, my_folder, extension = "tidy")
-  basics$save_interim(U_tidy, my_folder, extension = "tidy")
+  GINI_tidy <- join_J_U_data(J_tidy,U_tidy) %>% print()
 
+  basics$save_interim(GINI_tidy, my_folder, extension = "tidy")
 }
 
 read_J_raw_data <- function(folder_name,file_name){
@@ -34,7 +33,7 @@ read_J_raw_data <- function(folder_name,file_name){
 read_U_raw_data <- function(folder_name,file_name){
   file_path <- here::here("02_raw",folder_name,"data",file_name)
   U_data <- readxl::read_excel(file_path,
-                               col_names = FALSE)
+                               col_names = FALSE) 
   return(U_data)
 }
 
@@ -86,6 +85,13 @@ to_numeric_U <- function(input_data){
   return(output_data)
 }
 
+join_J_U_data <- function(input_data1,input_data2){
+  output_data <- input_data1 %>% 
+    dplyr::full_join(input_data2,by="year")  %>% 
+    dplyr::arrange(year)
+  
+  return(output_data)
+}
 
 box::use(`functions`/basics)
 main()
