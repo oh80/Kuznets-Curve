@@ -19,7 +19,7 @@ main <- function(){
     rename_column_U() 
   U_tidy <-to_numeric_U(U_tidy)
   
-  GINI_tidy <- join_J_U_data(J_tidy,U_tidy) %>% print()
+  GINI_tidy <- join_J_U_data(J_tidy,U_tidy) 
 
   basics$save_interim(GINI_tidy, my_folder, extension = "tidy")
 }
@@ -59,7 +59,7 @@ to_numeric_J <- function(input_data){
 
 extract_data_U <-function(input_data){
   output_data <- input_data %>% 
-    dplyr::select(6:14) %>% 
+    dplyr::select(7:34) %>% 
     #needed data is contained this range
     tidyr::drop_na() 
   return(output_data)
@@ -88,7 +88,7 @@ to_numeric_U <- function(input_data){
 join_J_U_data <- function(input_data1,input_data2){
   output_data <- input_data1 %>% 
     dplyr::full_join(input_data2,by="year")  %>% 
-    dplyr::arrange(year)
+    dplyr::arrange("year")
   
   return(output_data)
 }
