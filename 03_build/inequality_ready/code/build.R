@@ -11,7 +11,7 @@ main <-function(){
     unify_scale() %>% 
     extract_every_5years_data()
     
-  basics$save_interim(GINI_ready, my_folder, extension = "tidy")
+  basics$save_interim(GINI_ready, my_folder, extension = "ready")
 }
 
 

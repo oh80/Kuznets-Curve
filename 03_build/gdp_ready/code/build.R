@@ -22,7 +22,7 @@ main <- function(){
   master_data <- join_pop_and_gdp(gdp_tidy,J_pop_tidy,U_pop_tidy)
   gdp_ready <- add_per_capita(master_data)
   
-  basics$save_interim(gdp_ready, my_folder, extension = "tidy")
+  basics$save_interim(gdp_ready, my_folder, extension = "ready")
 
 }
 
