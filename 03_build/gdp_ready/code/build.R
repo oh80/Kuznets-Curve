@@ -20,7 +20,8 @@ main <- function(){
     to_numeric()
   
   master_data <- join_pop_and_gdp(gdp_tidy,J_pop_tidy,U_pop_tidy)
-  gdp_ready <- add_per_capita(master_data)
+  gdp_ready <- add_per_capita(master_data) %>% 
+    select_col()
   
   basics$save_interim(gdp_ready, my_folder, extension = "ready")
 
@@ -72,6 +73,12 @@ add_per_capita <- function(data_input){
   gdp_per_capita_U <- data_input$GDP_U/data_input$pop_U
   data_output <- data_input %>% dplyr::mutate(gdp_per_capita_J,gdp_per_capita_U)
   return(data_output)
+}
+
+select_col <- function(input_data){
+  output_data<-input_data %>% 
+    dplyr::select(year,gdp_per_capita_J,gdp_per_capita_U)
+  return(output_data)
 }
 
 box::use(`functions`/basics)
