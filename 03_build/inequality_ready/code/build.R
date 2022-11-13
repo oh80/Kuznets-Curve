@@ -12,6 +12,7 @@ main <-function(){
     extract_every_5years_data()
     
   basics$save_interim(GINI_ready, my_folder, extension = "ready")
+  print(GINI_ready)
 }
 
 
