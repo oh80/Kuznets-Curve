@@ -36,10 +36,10 @@ fill_na_J <- function(input_data){
       input_data$J_GINI[i] <- input_data$J_GINI[i]
     }
     else if(i%%3==2){
-      input_data$J_GINI[i] <- (input_data$J_GINI[i-1]+input_data$J_GINI[i+2])/2
+      input_data$J_GINI[i] <- (input_data$J_GINI[i-1]*2/3+input_data$J_GINI[i+2]*1/3)
     }
     else if(i%%3==0){
-      input_data$J_GINI[i] <- (input_data$J_GINI[i-2]+input_data$J_GINI[i+1])/2
+      input_data$J_GINI[i] <- (input_data$J_GINI[i-2]*1/3+input_data$J_GINI[i+1]*1/3)
     }
   }
   output_data <- input_data
